@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['high trash', 'less trash']
+
+roboflow:
+  workspace: hessa-alrashreed-pevb2
+  project: waste-3-exgng
+  version: 4
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/hessa-alrashreed-pevb2/waste-3-exgng/dataset/4
