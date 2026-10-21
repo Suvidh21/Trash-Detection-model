@@ -1,5 +1,5 @@
 
-
+(./TerraScan Eco-Tech Logo.png)
 <h1 align="center">🌍 TerraScan</h1>
 
 <h3 align="center"><em>Detect Waste. Decode Cities. Drive Change.</em></h3>
@@ -28,6 +28,7 @@ By integrating with existing street-level and traffic surveillance cameras, Terr
 > **The vision:** Transform every traffic camera into a waste monitoring sentinel — making cities cleaner, faster, and more sustainable. 🏙️
 
 ---
+(./Screenshot 2.png)
 
 ## 🧠 Why TerraScan?
 
@@ -40,6 +41,7 @@ TerraScan introduces a **smart, proactive trash detection system** that leverage
 - **Alert** municipalities in real time so cleanup crews can respond faster.
 
 This is a crucial step toward building **sustainable smart cities** — using infrastructure that already exists to solve problems that have persisted for decades. 🌍✨
+(./Screenshot 2026-10-21 002736)
 
 ---
 
