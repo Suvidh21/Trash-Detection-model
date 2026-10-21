@@ -1,5 +1,9 @@
 
-(./TerraScan Eco-Tech Logo.png)
+<p align="center">
+  <img src="docs/screenshots/TerraScan%20Eco-Tech%20Logo.png"
+       alt="TerraScan Eco-Tech Logo"
+       width="220">
+</p>
 <h1 align="center">🌍 TerraScan</h1>
 
 <h3 align="center"><em>Detect Waste. Decode Cities. Drive Change.</em></h3>
@@ -28,7 +32,11 @@ By integrating with existing street-level and traffic surveillance cameras, Terr
 > **The vision:** Transform every traffic camera into a waste monitoring sentinel — making cities cleaner, faster, and more sustainable. 🏙️
 
 ---
-(./Screenshot 2.png)
+<p align="center">
+  <img src="docs/screenshots/Screenshot%202.png"
+       alt="TerraScan Screenshot 2"
+       width="700">
+</p>
 
 ## 🧠 Why TerraScan?
 
@@ -41,7 +49,12 @@ TerraScan introduces a **smart, proactive trash detection system** that leverage
 - **Alert** municipalities in real time so cleanup crews can respond faster.
 
 This is a crucial step toward building **sustainable smart cities** — using infrastructure that already exists to solve problems that have persisted for decades. 🌍✨
-(./Screenshot 2026-10-21 002736)
+
+<p align="center">
+  <img src="docs/screenshots/Screenshot%202026-10-21%20002736.png"
+       alt="TerraScan Screenshot 5"
+       width="700">
+</p>
 
 ---
 
@@ -226,9 +239,6 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
