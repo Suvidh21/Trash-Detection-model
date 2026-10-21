@@ -1,0 +1,24 @@
+# ==============================================================
+# TerraScan — Requirements
+# Detect Waste. Decode Cities. Drive Change.
+# ==============================================================
+
+# ----- Core Framework -----
+streamlit>=1.30.0
+
+# ----- Computer Vision & ML -----
+ultralytics>=8.1.0            # YOLOv8 object detection
+opencv-python>=4.8.0          # Image / video processing
+torch>=2.0.0                  # PyTorch deep-learning backend
+torchvision>=0.15.0           # Vision utilities for PyTorch
+
+# ----- Image Processing -----
+pillow>=10.0.0                # PIL image handling
+numpy>=1.24.0                 # Numerical operations
+
+# ----- Data & Visualization -----
+pandas>=2.0.0                 # Tabular data for detection summaries
+matplotlib>=3.7.0             # Training curves & visualizations
+
+# ----- Dataset (optional — for training only) -----
+# roboflow                    # Uncomment to download Roboflow datasets

@@ -1,57 +1,128 @@
 from pathlib import Path
 import streamlit as st
-import helper
-import settings
+from PIL import Image
 
+import config
+import app_helper
+
+# Page setup
 st.set_page_config(
-    page_title="Waste Detection",
+    page_title="Waste Segregation System",
+    page_icon="♻️",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-st.sidebar.title("Detect Console")
-
-model_path = Path(settings.DETECTION_MODEL)
-
-st.title("Intelligent waste segregation system")
-st.write("Start detecting objects in the webcam stream by clicking the button below. To stop the detection, click stop button in the top right corner of the webcam stream.")
+# Custom Styling (Theme-compatible CSS)
 st.markdown(
-"""
-<style>
-    .stRecyclable {
-        background-color: rgba(233,192,78,255);
-        padding: 1rem 0.75rem;
-        margin-bottom: 1rem;
-        border-radius: 0.5rem;
-        margin-top: 0 !important;
-        font-size:18px !important;
+    """
+    <style>
+    .main-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
     }
-    .stNonRecyclable {
-        background-color: rgba(94,128,173,255);
-        padding: 1rem 0.75rem;
-        margin-bottom: 1rem;
-        border-radius: 0.5rem;
-        margin-top: 0 !important;
-        font-size:18px !important;
+    .subtitle {
+        font-size: 1.05rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.85;
     }
-    .stHazardous {
-        background-color: rgba(194,84,85,255);
-        padding: 1rem 0.75rem;
-        margin-bottom: 1rem;
-        border-radius: 0.5rem;
-        margin-top: 0 !important;
-        font-size:18px !important;
-    }
-
-</style>
-""",
-unsafe_allow_html=True
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
+# Header Section
+st.markdown('<div class="main-title">♻️ Smart Waste Segregation System</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="subtitle">Real-time object detection and categorization of waste items into <b>Recyclable</b>, <b>Non-Recyclable</b>, and <b>Hazardous</b> streams.</div>',
+    unsafe_allow_html=True
+)
+
+# Sidebar Configuration
+st.sidebar.title("⚙️ Detection Settings")
+
+# Model Engine Selector
+model_choice = st.sidebar.selectbox(
+    "Select Vision Model Engine",
+    config.MODEL_OPTIONS,
+    index=0,
+    help="Select 'YOLOv8 Standard' for high-accuracy bottle/cup/phone detection, or 'Custom Waste Model' for 21-class fine-grained waste taxonomy."
+)
+
+# Load Selected Model
 try:
-    model = helper.load_model(model_path)
+    model, model_type = app_helper.load_vision_model(model_choice)
 except Exception as ex:
-    st.error(f"Unable to load model. Check the specified path: {model_path}")
-    st.error(ex)
-helper.play_webcam(model)
+    st.error(f"Error loading vision model: {ex}")
+    st.stop()
 
-st.sidebar.markdown("This is a demo of the waste detection model.", unsafe_allow_html=True)
+# Source Selection
+source_radio = st.sidebar.radio(
+    "Select Input Source",
+    config.SOURCES_LIST,
+    help="Choose whether to run detection on an uploaded image, video file, or live webcam."
+)
 
+# Confidence Slider
+confidence = float(st.sidebar.slider(
+    "Confidence Threshold (%)",
+    min_value=15,
+    max_value=90,
+    value=35,
+    help="Lower values detect more objects; higher values remove doubtful detections."
+)) / 100.0
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 📋 Disposal Guidelines")
+st.sidebar.markdown(
+    """
+    - **♻️ Recyclable**: Clean paper, cardboard, plastic bottles, metal cans.
+    - **🗑️ Non-Recyclable**: Soiled items, food wrappers, plastic bags, straws.
+    - **⚠️ Hazardous**: Batteries, electronics, spray cans, chemical containers.
+    """
+)
+
+# --- MAIN CONTROLLER ---
+
+if source_radio == config.IMAGE:
+    st.subheader("📸 Image Detection")
+    uploaded_file = st.file_uploader("Upload an image of waste items...", type=["jpg", "jpeg", "png", "webp"])
+
+    col1, col2 = st.columns(2)
+
+    if uploaded_file is not None:
+        try:
+            input_image = Image.open(uploaded_file).convert("RGB")
+            with col1:
+                st.image(input_image, caption="Uploaded Image", use_container_width=True)
+
+            with st.spinner("Analyzing image..."):
+                output_image, detected_items = app_helper.process_image(model, input_image, confidence, model_type=model_type)
+
+            with col2:
+                st.image(output_image, caption="Detection Results", use_container_width=True)
+
+            st.write("---")
+            app_helper.render_detection_summary(detected_items, model_type=model_type)
+
+        except Exception as e:
+            st.error(f"Error processing image: {e}")
+    else:
+        st.info("Please upload an image to run waste detection.")
+
+elif source_radio == config.VIDEO:
+    st.subheader("📹 Video Detection")
+    uploaded_video = st.file_uploader("Upload a video clip...", type=["mp4", "avi", "mov"])
+
+    if uploaded_video is not None:
+        st.video(uploaded_video)
+        if st.button("Start Processing Video"):
+            with st.spinner("Processing video frames..."):
+                app_helper.process_video(model, uploaded_video, confidence, model_type=model_type)
+    else:
+        st.info("Please upload a video file to run detection.")
+
+elif source_radio == config.WEBCAM:
+    st.subheader("🔴 Live Webcam Feed")
+    app_helper.play_webcam(model, confidence, model_type=model_type)

@@ -1,0 +1,56 @@
+# ==============================================================
+# TerraScan — .gitignore
+# ==============================================================
+
+# ----- Python -----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# ----- Virtual Environments -----
+.venv/
+venv/
+env/
+ENV/
+
+# ----- Streamlit -----
+.streamlit/
+
+# ----- Model Weights (large binary files) -----
+models/weights/*.pt
+models/weights/*.onnx
+*.pt
+*.onnx
+!requirements.txt
+
+# ----- Dataset (too large for git) -----
+data/
+GARBAGE DATASET/
+WASTE_DATASETS/
+
+# ----- Training Runs -----
+runs/
+
+# ----- IDE / Editor -----
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ----- OS Specific -----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ----- Logs & Temp -----
+*.log
+*.tmp
+
+# ----- Old directories (deprecated) -----
+waste-detection-main/
+garbage-detection-main/
